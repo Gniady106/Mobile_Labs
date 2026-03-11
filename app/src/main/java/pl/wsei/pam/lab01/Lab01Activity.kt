@@ -1,13 +1,11 @@
 package pl.wsei.pam.lab01
 
 import android.os.Bundle
-import android.util.MutableByte
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import android.widget.Toolbar.LayoutParams
 import androidx.appcompat.app.AppCompatActivity
 
@@ -20,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_lab01)
         mLayout = findViewById(R.id.main)
 
         mTitle = TextView(this)
