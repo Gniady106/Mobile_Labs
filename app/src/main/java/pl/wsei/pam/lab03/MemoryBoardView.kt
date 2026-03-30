@@ -5,10 +5,14 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.GridLayout
 import android.widget.ImageButton
+import android.widget.Toast
 import pl.wsei.pam.lab01.R
 import java.util.Stack
 import java.util.Random
@@ -21,18 +25,40 @@ class MemoryBoardView(
 ) {
     private val tiles: MutableMap<String, Tile> = mutableMapOf()
     private val icons: List<Int> = listOf(
-        R.drawable.outline_airport_shuttle_24,
-        R.drawable.outline_accessible_24,
-        R.drawable.outline_cabin_24,
-        R.drawable.outline_10k_24,
-        R.drawable.outline_barefoot_24,
-        R.drawable.outline_add_call_24,
-        R.drawable.outline_asterisk_24,
-        R.drawable.outline_agriculture_24,
-        R.drawable.outline_air_freshener_24
-        // dodaj kolejne identyfikatory utworzonych ikon
+        R.drawable.outline_favorite_24,
+        R.drawable.outline_candle_24,
+        R.drawable.outline_downhill_skiing_24,
+        R.drawable.outline_cyclone_24,
+        R.drawable.outline_currency_bitcoin_24,
+        R.drawable.outline_android_24,
+        R.drawable.outline_exercise_24,
+        R.drawable.outline_planet_24,
+        R.drawable.outline_helicopter_24,
+        R.drawable.outline_lips_24,
+        R.drawable.outline_nature_24,
+        R.drawable.outline_mountain_flag_24,
+        R.drawable.outline_pets_24,
+        R.drawable.outline_social_leaderboard_24,
+        R.drawable.outline_mode_cool_24,
+        R.drawable.outline_pet_supplies_24,
+        R.drawable.outline_rocket_launch_24,
+        R.drawable.outline_savings_24
+
+
+
+
+
+
+
+
+
+
+
+
+
     )
-    private val deckResource: Int = R.drawable.outline_brightness_2_24
+
+    private val deckResource: Int = R.drawable.outline_award_star_24
     private var onGameChangeStateListener: (MemoryGameEvent) -> Unit = {}
     private val matchedPair: Stack<Tile> = Stack()
     private val logic: MemoryGameLogic = MemoryGameLogic(cols * rows / 2)
@@ -65,10 +91,9 @@ class MemoryBoardView(
                     gridLayout.addView(it)
                 }
 
-                // 🔥 pobierz ikonę i usuń z listy
                 val icon = shuffledIcons.removeAt(0)
 
-                // 🔥 dodaj Tile do mapy
+
                 addTile(button, icon)
             }
         }
@@ -77,11 +102,11 @@ class MemoryBoardView(
 
 
 
+
+
     private fun onClickTile(v: View) {
         val tile = tiles[v.tag] ?: return
 
-        // ❌ usuń tę linię - listener zrobi to sam
-        // tile.revealed = true
 
         matchedPair.push(tile)
 
@@ -120,44 +145,43 @@ class MemoryBoardView(
         onGameChangeStateListener = listener
     }
 
-    private fun animatePairedButton(button: ImageButton, action: Runnable) {
+    fun animatePairedButton(button: ImageButton, action: Runnable) {
         val set = AnimatorSet()
         val random = Random()
         button.pivotX = random.nextFloat() * 200f
         button.pivotY = random.nextFloat() * 200f
 
         val rotation = ObjectAnimator.ofFloat(button, "rotation", 1080f)
-        val scalingX = ObjectAnimator.ofFloat(button, "scaleX", 1f, 4f)
-        val scalingY = ObjectAnimator.ofFloat(button, "scaleY", 1f, 4f)
+        val scallingX = ObjectAnimator.ofFloat(button, "scaleX", 1f, 4f)
+        val scallingY = ObjectAnimator.ofFloat(button, "scaleY", 1f, 4f)
         val fade = ObjectAnimator.ofFloat(button, "alpha", 1f, 0f)
 
         set.startDelay = 500
         set.duration = 2000
         set.interpolator = DecelerateInterpolator()
-        set.playTogether(rotation, scalingX, scalingY, fade)
+        set.playTogether(rotation, scallingX, scallingY, fade)
 
         set.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animator: Animator) {}
-
             override fun onAnimationEnd(animator: Animator) {
                 button.scaleX = 1f
                 button.scaleY = 1f
                 button.alpha = 0.0f
                 action.run()
             }
-
             override fun onAnimationCancel(animator: Animator) {}
             override fun onAnimationRepeat(animator: Animator) {}
         })
         set.start()
     }
 
-    private fun animateNoMatchButton(button: ImageButton) {
+
+    fun animateNoMatchButton(button: ImageButton) {
         button.pivotX = button.width / 2f
         button.pivotY = button.height / 2f
 
-        val rotation = ObjectAnimator.ofFloat(button, "rotation", 0f, -15f, 15f, -15f, 15f, 0f)
-        rotation.duration = 500
+        val rotation = ObjectAnimator.ofFloat(button, "rotation", 0f, -20f, 20f, -20f, 20f, 0f)
+        rotation.duration = 600
         rotation.interpolator = DecelerateInterpolator()
         rotation.start()
     }
