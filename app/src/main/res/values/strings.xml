@@ -3,4 +3,6 @@
     <string name="lab02">Lab02</string>
     <string name="lab01">Lab01</string>
     <string name="board_activity_menu_sound" />
+    <string name="title_activity_lab06_compose">lab06ComposeActivity</string>
+    <string name="title_activity_lab06">lab06Activity</string>
 </resources>
