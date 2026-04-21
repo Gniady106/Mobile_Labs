@@ -1,6 +1,8 @@
 package pl.wsei.pam.lab06
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -31,7 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import pl.wsei.pam.lab06.ui.theme.Lab06Theme
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
+import kotlin.jvm.java
 
 
 enum class Priority { High, Medium, Low }
@@ -51,7 +53,7 @@ class TodoViewModel : ViewModel() {
     val tasks = mutableStateListOf(
         TodoTask("Programming", LocalDate.of(2024, 4, 18), false, Priority.Low),
         TodoTask("Teaching",    LocalDate.of(2024, 5, 12), false, Priority.High),
-        TodoTask("Learning",    LocalDate.of(2024, 6, 28), true,  Priority.Low),
+        TodoTask("Learning",    LocalDate.of(2024, 6, 28), false,  Priority.Low),
         TodoTask("Cooking",     LocalDate.of(2024, 8, 18), false, Priority.Medium),
     )
 
@@ -134,11 +136,11 @@ fun AppTopBar(
                     Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
                 }
                 IconButton(onClick = {
-                    val intent = android.content.Intent(
+                    val intent = Intent(
                         context,
-                        pl.wsei.pam.MainActivity::class.java
+                        pl.wsei.pam.lab06.lab06Activity::class.java
                     )
-                    intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     context.startActivity(intent)
                 }) {
                     Icon(imageVector = Icons.Default.Home, contentDescription = "Home")
@@ -241,8 +243,7 @@ fun ListScreen(navController: NavController, viewModel: TodoViewModel) {
         },
         content = { paddingValues ->
             LazyColumn(modifier = Modifier.padding(paddingValues)) {
-                // viewModel.tasks jest obserwowaną listą – rekomponuje się automatycznie
-                items(items = viewModel.tasks) { item ->
+                    items(items = viewModel.tasks) { item ->
                     ListItem(item = item)
                 }
             }
@@ -268,6 +269,7 @@ fun FormScreen(navController: NavController, viewModel: TodoViewModel) {
             .toInstant()
             .toEpochMilli()
     )
+
 
     val selectedDate: LocalDate = datePickerState.selectedDateMillis?.let { millis ->
         java.time.Instant.ofEpochMilli(millis)
