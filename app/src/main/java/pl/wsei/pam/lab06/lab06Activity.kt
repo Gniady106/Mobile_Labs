@@ -85,7 +85,6 @@ class lab06Activity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    // Single ViewModel instance shared across both screens
     val todoViewModel: TodoViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = "list") {
